@@ -1,0 +1,75 @@
+renderer/styles.css
+  s_eaccea441c09f7::t_09d1f448d59b15 194-195
+  s_eaccea441c09f7::t_475388419bc4b4 335,338
+  s_eaccea441c09f7::t_855af861c7de4a 467-472
+  s_eaccea441c09f7::t_c9ba2c05e74d40 259-260
+  s_eaccea441c09f7::t_9735f92cef7f20 515
+  s_eaccea441c09f7::t_db7840366b1746 176-179
+  s_eaccea441c09f7::t_6cd943d8e4913c 311
+  s_eaccea441c09f7::t_56c1020547a709 102-120,129-130,137,139-147
+  s_eaccea441c09f7::t_5211deeee977fb 166
+  s_eaccea441c09f7::t_04a53228ac787f 2-9
+  s_eaccea441c09f7::t_d3d3854b717044 94
+  s_eaccea441c09f7::t_8f5dc0cf727081 302-304
+  s_eaccea441c09f7::t_b96c18be0d4416 42
+  s_eaccea441c09f7::t_73e696aa58d0a7 121-128,131-136,138
+  s_eaccea441c09f7::t_39038365e98d52 293
+  s_eaccea441c09f7::t_09ba32286db05b 69,71
+  s_eaccea441c09f7::t_dfe71df92aef75 95
+  s_eaccea441c09f7::t_6da953392dee23 439,441
+  s_eaccea441c09f7::t_4ba99eb244c6ab 36-37
+  s_eaccea441c09f7::t_300c064ac0acb1 231-233
+  s_eaccea441c09f7::t_ead6cff3c828ba 462-466,473-514,516-517
+  s_eaccea441c09f7::t_61cf3a0d012e1c 10-18
+  s_eaccea441c09f7::t_05b69276623ab4 50-53
+  s_eaccea441c09f7::t_d15acb06be225d 253,331,354,370,459
+  s_eaccea441c09f7::t_7aa4ac27313a00 263-270
+main.js
+  s_eaccea441c09f7::t_c7849f6eb6288c 27
+  s_eaccea441c09f7::t_3ae9680220be12 9-13
+  s_eaccea441c09f7::t_54370ebb759f48 32
+  s_eaccea441c09f7::t_5909a659a36dd3 28-29
+native/midiout.swift
+  s_eaccea441c09f7::t_146cf77fe8680e 8
+  s_eaccea441c09f7::t_793afedbb39ad7 1
+  s_eaccea441c09f7::t_d1c6ca9b9df0ee 39
+  s_eaccea441c09f7::t_7176d8d1f5ca3c 22,27
+renderer/index.html
+  s_eaccea441c09f7::t_64aecf1726e05c 22-29
+  s_eaccea441c09f7::t_deb898b7c1899c 31
+  s_eaccea441c09f7::t_51e2239da94d39 14,16
+  s_eaccea441c09f7::t_ccdd4dc8dd1460 6
+package.json
+  s_eaccea441c09f7::t_0ae2e1f24e8646 2,4
+  s_eaccea441c09f7::t_b06a6336c38889 8,10-11,13,16-45
+README.md
+  s_eaccea441c09f7::t_6b15a7d6559fa3 1,3-10,16-17,26-28,42-43,54-56
+scripts/make-icon.js
+  s_eaccea441c09f7::t_f4e07bd867b21c 1-120
+renderer/app.js
+  s_eaccea441c09f7::t_774209ef953c2d 126
+  s_eaccea441c09f7::t_5c8eed55b3e622 21
+  s_eaccea441c09f7::t_3162c189eaea20 33
+  s_eaccea441c09f7::t_a547f0e936b5e5 95-96,98,100-103,106-107
+  s_eaccea441c09f7::t_1f4ff097e09bb9 164
+  s_eaccea441c09f7::t_7c880eb9fe9283 145
+  s_eaccea441c09f7::t_076a1f2a08ce6d 68
+  s_eaccea441c09f7::t_a2f47f118a8c9c 34-35,37-38
+  s_eaccea441c09f7::t_98f0c05172dd5b 165-179,181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "833a89bec401bc120bef2879aad90099e3c2a45f",
+  "prompts": {},
+  "sessions": {
+    "s_eaccea441c09f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0f318c8-541b-4eca-a7fb-24b02502e820",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Sandra Zollner <sandra.zollner@n8n.io>"
+    }
+  }
+}
