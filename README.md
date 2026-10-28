@@ -32,12 +32,17 @@ reset is exact, and nothing drifts.
 
 | Channel (MIDI ch) | Band | CC | Down | Up |
 | ----------------- | ---- | -- | ---- | -- |
+| CH 1 (ch 1) | VOL  | 7  | `1` | `2` |
 | CH 1 (ch 1) | HIGH | 16 | `q` | `w` |
 | CH 1 (ch 1) | MID  | 17 | `a` | `s` |
 | CH 1 (ch 1) | LOW  | 18 | `y` | `x` |
+| CH 2 (ch 2) | VOL  | 7  | `0` | `9` |
 | CH 2 (ch 2) | HIGH | 16 | `o` | `p` |
 | CH 2 (ch 2) | MID  | 17 | `k` | `l` |
 | CH 2 (ch 2) | LOW  | 18 | `n` | `m` |
+
+Volume uses the standard MIDI Channel Volume CC (7) and starts at full; its
+buttons are **MAX / MIDDLE / MIN** (EQ bands use **RESET / MIDDLE / MIN**).
 
 Edit `renderer/app.js` (`CHANNELS`, and the tuning constants `STEP`, `TICK_MS`)
 to taste.

@@ -5,11 +5,14 @@
 //  it at a steady fine rate. The MAX / RESET / MIN buttons jump to the extremes
 //  and centre instantly (mouse only — no keyboard shortcut).
 // ─────────────────────────────────────────────────────────────────────────
+// A band can be an EQ band (centre-detented) or a VOLUME band (starts full).
+// Volume uses the standard MIDI Channel Volume CC (7).
 const CHANNELS = [
   {
     name: 'CH 1',
     midi: 0, // MIDI channel 1
     bands: [
+      { name: 'VOL', cc: 7, down: '1', up: '2', kind: 'vol' },
       { name: 'HIGH', cc: 16, down: 'q', up: 'w' },
       { name: 'MID', cc: 17, down: 'a', up: 's' },
       { name: 'LOW', cc: 18, down: 'y', up: 'x' },
@@ -20,6 +23,7 @@ const CHANNELS = [
     midi: 1, // MIDI channel 2
     mirror: true, // lay this strip out as a mirror image of CH 1
     bands: [
+      { name: 'VOL', cc: 7, down: '0', up: '9', kind: 'vol' },
       { name: 'HIGH', cc: 16, down: 'o', up: 'p' },
       { name: 'MID', cc: 17, down: 'k', up: 'l' },
       { name: 'LOW', cc: 18, down: 'n', up: 'm' },
@@ -51,7 +55,11 @@ function makeBand(chanMidi, band) {
   const knobs = document.createElement('div');
   knobs.className = 'band-knobs';
 
-  const state = { value: BASE, dials: [] };
+  // Volume faders start at full; EQ bands start centred.
+  const isVol = band.kind === 'vol';
+  if (isVol) row.classList.add('vol');
+  const start = isVol ? MAX_V : BASE;
+  const state = { value: start, dials: [] };
 
   const send = () => window.synth && window.synth.sendCC(chanMidi, band.cc, state.value);
   const render = () => {
@@ -111,7 +119,7 @@ function makeBand(chanMidi, band) {
     return cell;
   };
 
-  // RESET / MIN — mouse only, instant jumps — sit to the right of the knobs.
+  // Preset buttons — mouse only, instant jumps — sit to the right of the knobs.
   const btns = document.createElement('div');
   btns.className = 'band-btns';
   const makeBtn = (cls, text, title, value) => {
@@ -122,9 +130,17 @@ function makeBand(chanMidi, band) {
     b.addEventListener('click', () => jump(value, b));
     return b;
   };
-  btns.appendChild(makeBtn('rst', 'RESET', 'Centre (64)', BASE));
-  btns.appendChild(makeBtn('mid', 'MIDDLE', `Half-down (${MID_VALUE})`, MID_VALUE));
-  btns.appendChild(makeBtn('min', 'MIN', 'Full down (0)', MIN_V));
+  // Volume: MAX / MIDDLE / MIN (starts full). EQ: RESET / MIDDLE / MIN.
+  const presets = isVol
+    ? [['max', 'MAX', 'Full up (127)', MAX_V],
+       ['mid', 'MIDDLE', 'Half (64)', BASE],
+       ['min', 'MIN', 'Silence (0)', MIN_V]]
+    : [['rst', 'RESET', 'Centre (64)', BASE],
+       ['mid', 'MIDDLE', `Half-down (${MID_VALUE})`, MID_VALUE],
+       ['min', 'MIN', 'Full down (0)', MIN_V]];
+  for (const [cls, text, title, value] of presets) {
+    btns.appendChild(makeBtn(cls, text, title, value));
+  }
 
   knobs.appendChild(makeKnobCell('down'));
   knobs.appendChild(makeKnobCell('up'));
@@ -133,7 +149,7 @@ function makeBand(chanMidi, band) {
   row.appendChild(knobs);
   row.appendChild(btns);
   render();
-  send(); // push initial centre so rekordbox starts synced
+  send(); // push initial value so rekordbox starts synced
   return row;
 }
 

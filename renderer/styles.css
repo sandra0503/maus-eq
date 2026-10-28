@@ -261,11 +261,23 @@ body {
   padding: 7px 2px;
 }
 
-/* CH 2 mirrored: buttons · up · down · label (up knob stays by the buttons) */
-.strip.mirror .band {
-  flex-direction: row-reverse;
+/* VOLUME band — set apart from the EQ bands below it */
+.band.vol {
+  border-bottom: 1px solid rgba(5, 217, 232, 0.18);
+  padding-bottom: 11px;
+  margin-bottom: 2px;
 }
-.strip.mirror .band-knobs {
+.band.vol .band-label {
+  color: var(--accent2);
+}
+.band.vol .knob-indicator {
+  background: linear-gradient(#8ef3fa, var(--accent2));
+  box-shadow: 0 0 6px var(--accent2);
+}
+
+/* CH 2 mirrored: the button cluster moves to the left, but the knob pair keeps
+   its natural down·up order so "up" (higher) stays on the right in both channels */
+.strip.mirror .band {
   flex-direction: row-reverse;
 }
 .band + .band {
