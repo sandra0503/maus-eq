@@ -1,0 +1,388 @@
+:root {
+  --panel: #16181d;
+  --panel-2: #1d2026;
+  --metal-hi: #3a3f49;
+  --metal-lo: #0e1013;
+  --accent: #ff7a1a;
+  --accent-glow: #ff9a44;
+  --text: #c7ccd6;
+  --text-dim: #6c727e;
+  --knob-face-hi: #2b2f37;
+  --knob-face-lo: #131519;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "SF Pro Display", -apple-system, "Helvetica Neue", sans-serif;
+  background: radial-gradient(circle at 50% -20%, #22252c 0%, #0a0b0e 60%);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 26px;
+  overflow: hidden;
+  cursor: default;
+}
+
+/* ── The hardware unit ───────────────────────────────────────────── */
+.unit {
+  width: 100%;
+  max-width: 1040px;
+  border-radius: 18px;
+  padding: 2px;
+  background: linear-gradient(160deg, var(--metal-hi), var(--metal-lo));
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.6),
+    0 2px 0 rgba(255, 255, 255, 0.06) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+.unit > * {
+  position: relative;
+}
+
+.unit::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 16px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.015) 0 2px,
+      rgba(0, 0, 0, 0.02) 2px 4px
+    ),
+    linear-gradient(170deg, var(--panel-2), var(--panel));
+  pointer-events: none;
+}
+
+/* ── Header / footer ─────────────────────────────────────────────── */
+.unit-top,
+.unit-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+}
+
+.unit-top {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+  -webkit-app-region: drag; /* drag the window by its header */
+}
+.eq-btn,
+.knob-cell {
+  -webkit-app-region: no-drag;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--accent-glow), var(--accent) 45%, #7a2f00 90%);
+  box-shadow: 0 0 10px var(--accent), 0 0 2px #000 inset;
+}
+
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-size: 18px;
+  color: #e9edf4;
+}
+.brand-name span {
+  color: var(--accent);
+}
+
+.unit-meta {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+}
+
+.power {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+}
+.power .led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2bd87a;
+  box-shadow: 0 0 8px #2bd87a;
+}
+
+.unit-bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.03);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+.screws {
+  display: flex;
+  gap: 18px;
+}
+.screws i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4a4f59, #14161a);
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.08), 0 0 2px #000 inset;
+  position: relative;
+}
+.screws i::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+  transform: rotate(40deg);
+}
+
+/* ── Channels ────────────────────────────────────────────────────── */
+.channels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 16px 16px;
+}
+
+.strip {
+  border-radius: 14px;
+  padding: 14px 10px 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(0, 0, 0, 0.25));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 -14px 30px rgba(0, 0, 0, 0.25) inset;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+}
+
+.strip-label {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 16px;
+  text-shadow: 0 0 12px rgba(255, 122, 26, 0.35);
+}
+
+.band {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 2px;
+}
+.band + .band {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.band-label {
+  width: 20px;
+  flex: none;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+}
+
+/* paired knobs sit close together so you can slide between down/up */
+.band-knobs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* button stack pushed to the right edge of the band */
+.band-btns {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.eq-btn {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+  width: 58px;
+  padding: 9px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: linear-gradient(180deg, #2b2f37, #15171c);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 -2px 2px rgba(0, 0, 0, 0.5) inset;
+  transition: transform 0.05s, color 0.12s, box-shadow 0.12s;
+}
+.eq-btn:hover {
+  color: var(--text);
+}
+.eq-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.5) inset;
+}
+.eq-btn.max:hover {
+  color: var(--accent-glow);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 122, 26, 0.4) inset,
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+.eq-btn.min:hover {
+  color: #4aa8ff;
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(74, 168, 255, 0.4) inset,
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+
+/* ── Knob ────────────────────────────────────────────────────────── */
+.knob-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 5px;
+  border-radius: 12px;
+  cursor: ns-resize;
+  transition: background 0.15s;
+}
+.knob-cell:hover {
+  background: rgba(255, 122, 26, 0.05);
+}
+
+.knob {
+  position: relative;
+  width: 58px;
+  height: 58px;
+}
+
+.knob-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 220deg,
+    var(--accent) 0deg,
+    rgba(255, 122, 26, 0.15) 0deg 280deg,
+    transparent 280deg
+  );
+  opacity: 0.25;
+  filter: blur(0.3px);
+  transition: opacity 0.14s;
+}
+
+.knob-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 38%, var(--knob-face-hi), var(--knob-face-lo) 70%),
+    #000;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 -5px 10px rgba(0, 0, 0, 0.55) inset;
+  display: grid;
+  place-items: center;
+}
+.knob-body::before {
+  /* fine knurled-metal rim */
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    rgba(255, 255, 255, 0.05) 0deg 2deg,
+    rgba(0, 0, 0, 0.12) 2deg 4deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%);
+  mask: radial-gradient(circle, transparent 62%, #000 63%);
+}
+
+.knob-dial {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.08s ease-out;
+}
+.knob-indicator {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 3px;
+  height: 18px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: linear-gradient(var(--accent-glow), var(--accent));
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.knob-arrow {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.keycap {
+  min-width: 26px;
+  padding: 3px 7px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #e9edf4;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #2c3038, #171a1f);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 -2px 2px rgba(0, 0, 0, 0.5) inset;
+  letter-spacing: 1px;
+}
+
+/* active state when a knob fires */
+.knob.active .knob-ring {
+  opacity: 0.9;
+}
+.knob.active .knob-indicator {
+  box-shadow: 0 0 12px var(--accent-glow), 0 0 4px #fff;
+}
+.knob.active .knob-body {
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 122, 26, 0.5) inset,
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}

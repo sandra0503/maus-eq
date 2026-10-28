@@ -1,0 +1,16 @@
+{
+  "name": "synth-eq-controller",
+  "version": "1.0.0",
+  "description": "Synthesizer-style dual-channel EQ controller that outputs MIDI over its own virtual port",
+  "main": "main.js",
+  "scripts": {
+    "build:helper": "swiftc native/midiout.swift -o native/midiout -framework CoreMIDI -O",
+    "start": "electron .",
+    "postinstall": "npm run build:helper"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^34.2.0"
+  }
+}
