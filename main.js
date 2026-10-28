@@ -6,7 +6,11 @@ let helper = null;
 let mainWindow = null;
 
 function startHelper() {
-  const bin = path.join(__dirname, 'native', 'midiout');
+  // In a packaged app the binary is shipped under Resources/ (extraResources);
+  // in dev it sits next to the source.
+  const bin = app.isPackaged
+    ? path.join(process.resourcesPath, 'native', 'midiout')
+    : path.join(__dirname, 'native', 'midiout');
   helper = spawn(bin, [], { stdio: ['pipe', 'inherit', 'inherit'] });
   helper.on('exit', (code) => {
     console.log(`[midiout] exited with code ${code}`);
@@ -20,12 +24,12 @@ function startHelper() {
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 760,
-    height: 580,
-    minWidth: 680,
-    minHeight: 520,
+    height: 660,
+    minWidth: 450,
+    minHeight: 410,
     backgroundColor: '#0a0b0e',
     titleBarStyle: 'hiddenInset',
-    title: 'EQ Controller',
+    title: 'Maus EQ',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

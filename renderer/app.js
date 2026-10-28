@@ -18,6 +18,7 @@ const CHANNELS = [
   {
     name: 'CH 2',
     midi: 1, // MIDI channel 2
+    mirror: true, // lay this strip out as a mirror image of CH 1
     bands: [
       { name: 'HIGH', cc: 16, down: 'o', up: 'p' },
       { name: 'MID', cc: 17, down: 'k', up: 'l' },
@@ -29,9 +30,12 @@ const CHANNELS = [
 const BASE = 64;     // centre / reset value
 const MIN_V = 0;
 const MAX_V = 127;
-const STEP = 2;      // constant fine step per hover tick / key press
-const TICK_MS = 55;  // hover re-fire interval
+const cfg = { step: 2 }; // live-configurable fine step (see Settings bar)
+const TICK_MS = 55;   // hover re-fire interval
+const DWELL_MS = 140; // hover must linger this long before it starts turning
 const MAX_ANGLE = 135;
+// halfway between MIN and centre
+const MID_VALUE = Math.round((MIN_V + BASE) / 2);
 
 const clamp = (v) => Math.max(MIN_V, Math.min(MAX_V, v));
 const keyToStep = new Map(); // key char -> step function
@@ -61,7 +65,7 @@ function makeBand(chanMidi, band) {
   };
   const step = (dir, knobEl) => {
     const before = state.value;
-    state.value = clamp(state.value + dir * STEP);
+    state.value = clamp(state.value + dir * cfg.step);
     if (state.value !== before) { send(); render(); }
     if (knobEl) flash(knobEl);
   };
@@ -88,15 +92,19 @@ function makeBand(chanMidi, band) {
     const knobEl = cell.querySelector('.knob');
     state.dials.push(cell.querySelector('.knob-dial'));
 
-    // Hover alone turns it at a steady fine rate — no movement needed.
+    // Hover turns it at a steady fine rate — but only after a brief dwell, so a
+    // quick pass-through of the mouse doesn't nudge it accidentally.
     let timer = null;
+    let dwell = null;
     cell.addEventListener('mouseenter', () => {
-      step(sign, knobEl);
-      timer = setInterval(() => step(sign, knobEl), TICK_MS);
+      dwell = setTimeout(() => {
+        step(sign, knobEl);
+        timer = setInterval(() => step(sign, knobEl), TICK_MS);
+      }, DWELL_MS);
     });
     cell.addEventListener('mouseleave', () => {
-      clearInterval(timer);
-      timer = null;
+      clearTimeout(dwell); dwell = null;
+      clearInterval(timer); timer = null;
     });
 
     keyToStep.set(key, () => step(sign, knobEl));
@@ -115,6 +123,7 @@ function makeBand(chanMidi, band) {
     return b;
   };
   btns.appendChild(makeBtn('rst', 'RESET', 'Centre (64)', BASE));
+  btns.appendChild(makeBtn('mid', 'MIDDLE', `Half-down (${MID_VALUE})`, MID_VALUE));
   btns.appendChild(makeBtn('min', 'MIN', 'Full down (0)', MIN_V));
 
   knobs.appendChild(makeKnobCell('down'));
@@ -133,6 +142,7 @@ function build() {
   for (const ch of CHANNELS) {
     const strip = document.createElement('section');
     strip.className = 'strip';
+    if (ch.mirror) strip.classList.add('mirror');
 
     const label = document.createElement('div');
     label.className = 'strip-label';
@@ -151,4 +161,21 @@ window.addEventListener('keydown', (e) => {
   if (fn) { fn(); e.preventDefault(); }
 });
 
+// ── Settings bar: step size (persisted across launches) ─────────────────────
+function initSettings() {
+  const stepRange = document.getElementById('stepRange');
+  const stepVal = document.getElementById('stepVal');
+
+  const setStep = (s) => {
+    cfg.step = s;
+    stepRange.value = s;
+    stepVal.textContent = s;
+    localStorage.setItem('maus-step', String(s));
+  };
+
+  stepRange.addEventListener('input', () => setStep(parseInt(stepRange.value, 10)));
+  setStep(parseInt(localStorage.getItem('maus-step') || '2', 10));
+}
+
 build();
+initSettings();

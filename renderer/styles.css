@@ -1,14 +1,21 @@
 :root {
-  --panel: #16181d;
-  --panel-2: #1d2026;
-  --metal-hi: #3a3f49;
-  --metal-lo: #0e1013;
-  --accent: #ff7a1a;
-  --accent-glow: #ff9a44;
-  --text: #c7ccd6;
-  --text-dim: #6c727e;
-  --knob-face-hi: #2b2f37;
-  --knob-face-lo: #131519;
+  --panel: #1a1226;
+  --panel-2: #241936;
+  --metal-hi: #52406b;
+  --metal-lo: #140c20;
+  --text: #d6cfe0;
+  --text-dim: #837a97;
+  --knob-face-hi: #342a44;
+  --knob-face-lo: #16111f;
+  --bg-1: #3a1d52;
+  --bg-2: #0c0716;
+  --btn-hi: #2b2436;
+  --btn-lo: #15111c;
+  --keycap-hi: #2c2638;
+  --keycap-lo: #15111d;
+  --accent: #ff2d8e;       /* hot 80s pink */
+  --accent-glow: #ff7ac8;  /* lighter pink glint */
+  --accent2: #05d9e8;      /* cyan secondary */
 }
 
 * {
@@ -26,12 +33,13 @@ body {
 
 body {
   font-family: "SF Pro Display", -apple-system, "Helvetica Neue", sans-serif;
-  background: radial-gradient(circle at 50% -20%, #22252c 0%, #0a0b0e 60%);
+  background: radial-gradient(circle at 50% -15%, var(--bg-1) 0%, var(--bg-2) 62%);
+  transition: background 0.25s ease;
   color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 26px;
+  padding: 0;
   overflow: hidden;
   cursor: default;
 }
@@ -39,12 +47,13 @@ body {
 /* ── The hardware unit ───────────────────────────────────────────── */
 .unit {
   width: 100%;
-  max-width: 1040px;
-  border-radius: 18px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
   padding: 2px;
   background: linear-gradient(160deg, var(--metal-hi), var(--metal-lo));
   box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.6),
     0 2px 0 rgba(255, 255, 255, 0.06) inset,
     0 -2px 0 rgba(0, 0, 0, 0.5) inset;
 }
@@ -57,8 +66,9 @@ body {
   content: "";
   position: absolute;
   inset: 2px;
-  border-radius: 16px;
+  border-radius: 0;
   background:
+    radial-gradient(130% 70% at 50% -10%, rgba(255, 45, 142, 0.14), transparent 55%),
     repeating-linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.015) 0 2px,
@@ -81,10 +91,58 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
   -webkit-app-region: drag; /* drag the window by its header */
+  padding-left: 82px; /* clear the macOS traffic lights */
+  min-height: 40px; /* room for the traffic lights */
 }
 .eq-btn,
 .knob-cell {
   -webkit-app-region: no-drag;
+}
+
+/* ── Settings bar ────────────────────────────────────────────────── */
+.settings {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 9px 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+.set-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.set-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+}
+.settings input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 130px;
+  height: 6px;
+  border-radius: 4px;
+  background: var(--btn-lo); /* dark track */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) inset;
+  cursor: pointer;
+}
+.settings input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 7px var(--accent), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.set-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  width: 16px;
+  text-align: right;
 }
 
 .brand {
@@ -105,7 +163,7 @@ body {
   font-weight: 700;
   letter-spacing: 3px;
   font-size: 18px;
-  color: #e9edf4;
+  color: var(--text);
 }
 .brand-name span {
   color: var(--accent);
@@ -115,6 +173,10 @@ body {
   font-size: 11px;
   letter-spacing: 2px;
   color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .power {
@@ -129,8 +191,8 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #2bd87a;
-  box-shadow: 0 0 8px #2bd87a;
+  background: var(--accent2);
+  box-shadow: 0 0 8px var(--accent2);
 }
 
 .unit-bottom {
@@ -166,6 +228,9 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 14px;
   padding: 16px 16px;
+  flex: 1;
+  min-height: 0;
+  align-content: center;
 }
 
 .strip {
@@ -185,14 +250,23 @@ body {
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 16px;
-  text-shadow: 0 0 12px rgba(255, 122, 26, 0.35);
+  text-shadow: 0 0 12px rgba(255, 45, 142, 0.35);
 }
 
 .band {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   padding: 7px 2px;
+}
+
+/* CH 2 mirrored: buttons · up · down · label (up knob stays by the buttons) */
+.strip.mirror .band {
+  flex-direction: row-reverse;
+}
+.strip.mirror .band-knobs {
+  flex-direction: row-reverse;
 }
 .band + .band {
   border-top: 1px solid rgba(255, 255, 255, 0.04);
@@ -216,9 +290,8 @@ body {
   gap: 4px;
 }
 
-/* button stack pushed to the right edge of the band */
+/* button stack sits just to the right of the knobs */
 .band-btns {
-  margin-left: auto;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -226,16 +299,16 @@ body {
 
 .eq-btn {
   font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1px;
   color: var(--text-dim);
   width: 58px;
   padding: 9px 0;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  background: linear-gradient(180deg, #2b2f37, #15171c);
+  background: linear-gradient(180deg, var(--btn-hi), var(--btn-lo));
   box-shadow:
     0 2px 3px rgba(0, 0, 0, 0.5),
     0 1px 0 rgba(255, 255, 255, 0.1) inset,
@@ -255,14 +328,14 @@ body {
   color: var(--accent-glow);
   box-shadow:
     0 2px 3px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 122, 26, 0.4) inset,
+    0 0 0 1px rgba(255, 45, 142, 0.4) inset,
     0 1px 0 rgba(255, 255, 255, 0.1) inset;
 }
 .eq-btn.min:hover {
-  color: #4aa8ff;
+  color: var(--accent2);
   box-shadow:
     0 2px 3px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(74, 168, 255, 0.4) inset,
+    0 0 0 1px rgba(5, 217, 232, 0.4) inset,
     0 1px 0 rgba(255, 255, 255, 0.1) inset;
 }
 
@@ -278,7 +351,7 @@ body {
   transition: background 0.15s;
 }
 .knob-cell:hover {
-  background: rgba(255, 122, 26, 0.05);
+  background: rgba(255, 45, 142, 0.05);
 }
 
 .knob {
@@ -294,7 +367,7 @@ body {
   background: conic-gradient(
     from 220deg,
     var(--accent) 0deg,
-    rgba(255, 122, 26, 0.15) 0deg 280deg,
+    rgba(255, 45, 142, 0.15) 0deg 280deg,
     transparent 280deg
   );
   opacity: 0.25;
@@ -363,9 +436,9 @@ body {
   text-align: center;
   font-size: 12px;
   font-weight: 700;
-  color: #e9edf4;
+  color: var(--text);
   border-radius: 6px;
-  background: linear-gradient(180deg, #2c3038, #171a1f);
+  background: linear-gradient(180deg, var(--keycap-hi), var(--keycap-lo));
   box-shadow:
     0 2px 3px rgba(0, 0, 0, 0.5),
     0 1px 0 rgba(255, 255, 255, 0.12) inset,
@@ -383,6 +456,62 @@ body {
 .knob.active .knob-body {
   box-shadow:
     0 4px 10px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 122, 26, 0.5) inset,
+    0 0 0 1px rgba(255, 45, 142, 0.5) inset,
     0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+/* ── Compact mode — keeps everything on screen when the window is small ── */
+@media (max-width: 640px), (max-height: 600px) {
+  .settings {
+    padding: 7px 14px;
+  }
+  .unit-top {
+    padding: 7px 14px 7px 82px; /* keep traffic-light clearance */
+  }
+  .unit-meta {
+    display: none; /* drop the tagline when space is tight */
+  }
+  .unit-bottom {
+    padding: 6px 14px;
+  }
+  .unit-bottom span:first-child {
+    display: none; /* hide the hint text, keep the screws */
+  }
+  .channels {
+    gap: 10px;
+    padding: 10px;
+  }
+  .strip {
+    padding: 10px 7px 12px;
+  }
+  .strip-label {
+    margin-bottom: 8px;
+  }
+  .band {
+    gap: 6px;
+    padding: 4px 2px;
+  }
+  .band-knobs {
+    gap: 2px;
+  }
+  .knob {
+    width: 46px;
+    height: 46px;
+  }
+  .knob-cell {
+    padding: 4px 3px;
+    gap: 4px;
+  }
+  .keycap {
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+  .band-btns {
+    gap: 4px;
+  }
+  .eq-btn {
+    width: 50px;
+    padding: 6px 0;
+    font-size: 8px;
+  }
 }

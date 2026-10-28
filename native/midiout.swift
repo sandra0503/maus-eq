@@ -1,11 +1,11 @@
-// midiout — creates a virtual CoreMIDI source named "PHASE-EQ" and sends MIDI
+// midiout — creates a virtual CoreMIDI source named "Maus EQ" and sends MIDI
 // Control Change messages read from stdin. One command per line:
 //
 //     <channel 0-15> <cc 0-127> <value 0-127>
 //
 // e.g. "0 16 72"  →  CC#16 = 72 on MIDI channel 1.
 //
-// Other apps (rekordbox, etc.) see "PHASE-EQ" as a MIDI input to map.
+// Other apps (rekordbox, etc.) see "Maus EQ" as a MIDI input to map.
 // No special permission required for a CoreMIDI virtual endpoint.
 //
 // Build: swiftc midiout.swift -o midiout -framework CoreMIDI -O
@@ -19,12 +19,12 @@ func fail(_ msg: String) -> Never {
 }
 
 var client = MIDIClientRef()
-if MIDIClientCreate("PhaseEQClient" as CFString, nil, nil, &client) != noErr {
+if MIDIClientCreate("MausEQClient" as CFString, nil, nil, &client) != noErr {
     fail("could not create MIDI client")
 }
 
 var source = MIDIEndpointRef()
-if MIDISourceCreate(client, "PHASE-EQ" as CFString, &source) != noErr {
+if MIDISourceCreate(client, "Maus EQ" as CFString, &source) != noErr {
     fail("could not create virtual source")
 }
 
@@ -36,7 +36,7 @@ func sendCC(_ channel: UInt8, _ cc: UInt8, _ value: UInt8) {
     MIDIReceived(source, &packetList)
 }
 
-FileHandle.standardError.write("midiout: ready (virtual source 'PHASE-EQ')\n".data(using: .utf8)!)
+FileHandle.standardError.write("midiout: ready (virtual source 'Maus EQ')\n".data(using: .utf8)!)
 
 while let line = readLine(strippingNewline: true) {
     let parts = line.split(separator: " ").compactMap { UInt8($0) }

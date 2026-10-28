@@ -1,16 +1,47 @@
 {
-  "name": "synth-eq-controller",
+  "name": "maus-eq",
   "version": "1.0.0",
-  "description": "Synthesizer-style dual-channel EQ controller that outputs MIDI over its own virtual port",
+  "description": "Maus EQ — mouse-driven dual-channel MIDI EQ for blending on the fly when your controller is out of reach",
   "main": "main.js",
   "scripts": {
     "build:helper": "swiftc native/midiout.swift -o native/midiout -framework CoreMIDI -O",
+    "build:icon": "node scripts/make-icon.js",
     "start": "electron .",
-    "postinstall": "npm run build:helper"
+    "postinstall": "npm run build:helper",
+    "dist": "npm run build:helper && electron-builder --mac"
   },
-  "author": "",
+  "author": "Sandra Zollner",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^34.2.0"
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.mauseq.app",
+    "productName": "Maus EQ",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**"
+    ],
+    "extraResources": [
+      {
+        "from": "native/midiout",
+        "to": "native/midiout"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.music",
+      "icon": "build/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "identity": null
+    }
   }
 }
