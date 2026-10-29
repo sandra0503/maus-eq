@@ -25,10 +25,11 @@ reset is exact, and nothing drifts.
 
 ## Interaction
 
-- **Hover** a knob to turn it — no mouse movement needed; it ramps steadily
-  while the pointer is over it.
+- **Hold** a knob (press and keep the mouse button down) to ramp it in that
+  direction; release to stop. The ramp rate is the **STEP** slider in settings.
 - **RESET** jumps the band to centre (64); **MIN** kills it to 0.
-- **Keyboard:** each mapped key steps its band; hold to auto-repeat.
+- **Keyboard:** each mapped key steps its band by a fixed amount (5); hold to
+  auto-repeat.
 
 ## Mapping (value 0–127, centre 64)
 
