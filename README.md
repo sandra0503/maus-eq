@@ -1,3 +1,4 @@
+
 # Maus EQ
 
 A mouse-driven, dual-channel MIDI EQ for **quickly blending sounds when your
@@ -8,7 +9,7 @@ It outputs **MIDI directly** over its own virtual port (`Maus EQ`). Two channels
 three EQ bands each (HIGH / MID / LOW), every band a **down** knob and an **up**
 knob sharing one value. macOS only (CoreMIDI).
 
-<img width="500" alt="Screenshot 2026-10-28 at 13 50 43" src="https://github.com/user-attachments/assets/2be9b2db-83f1-4ed2-8ec4-1bafe30df4bb" />
+<img width="500" alt="Screenshot 2026-10-29 at 12 09 28" src="https://github.com/user-attachments/assets/a844a98d-efbb-4cef-bfc3-49c9a2cdfea5" />
 
 ## Architecture
 
