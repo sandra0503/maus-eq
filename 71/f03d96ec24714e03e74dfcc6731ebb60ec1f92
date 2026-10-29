@@ -1,0 +1,19 @@
+README.md
+  s_eaccea441c09f7::t_0a1db1ed7386e7 28-29,31-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "71f03d96ec24714e03e74dfcc6731ebb60ec1f92",
+  "prompts": {},
+  "sessions": {
+    "s_eaccea441c09f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0f318c8-541b-4eca-a7fb-24b02502e820",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Sandra Zollner <sandra.zollner@n8n.io>"
+    }
+  }
+}
