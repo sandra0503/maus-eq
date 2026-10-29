@@ -23,7 +23,7 @@ const CHANNELS = [
     midi: 1, // MIDI channel 2
     mirror: true, // lay this strip out as a mirror image of CH 1
     bands: [
-      { name: 'VOL', cc: 7, down: '0', up: '9', kind: 'vol' },
+      { name: 'VOL', cc: 7, down: '9', up: '0', kind: 'vol' },
       { name: 'HIGH', cc: 16, down: 'o', up: 'p' },
       { name: 'MID', cc: 17, down: 'k', up: 'l' },
       { name: 'LOW', cc: 18, down: 'n', up: 'm' },

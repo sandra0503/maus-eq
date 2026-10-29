@@ -37,7 +37,7 @@ reset is exact, and nothing drifts.
 | CH 1 (ch 1) | HIGH | 16 | `q` | `w` |
 | CH 1 (ch 1) | MID  | 17 | `a` | `s` |
 | CH 1 (ch 1) | LOW  | 18 | `y` | `x` |
-| CH 2 (ch 2) | VOL  | 7  | `0` | `9` |
+| CH 2 (ch 2) | VOL  | 7  | `9` | `0` |
 | CH 2 (ch 2) | HIGH | 16 | `o` | `p` |
 | CH 2 (ch 2) | MID  | 17 | `k` | `l` |
 | CH 2 (ch 2) | LOW  | 18 | `n` | `m` |
