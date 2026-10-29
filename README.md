@@ -2,7 +2,7 @@
 # Maus EQ
 
 A mouse-driven, dual-channel MIDI EQ for **quickly blending sounds when your
-controller is out of reach**. Hover a knob to turn it, hit a button to kill or
+controller is out of reach**. Hold a knob to turn it, hit a button to kill or
 reset.
 
 It outputs **MIDI directly** over its own virtual port (`Maus EQ`). Two channels,
