@@ -4,10 +4,11 @@ A mouse-driven, dual-channel MIDI EQ for **quickly blending sounds when your
 controller is out of reach**. Hover a knob to turn it, hit a button to kill or
 reset — no hands on hardware required.
 
-It outputs **MIDI directly** over its own virtual port (`Maus EQ`) — no extra
-software, no keystroke injection, no Accessibility permission. Two channels,
+It outputs **MIDI directly** over its own virtual port (`Maus EQ`). Two channels,
 three EQ bands each (HIGH / MID / LOW), every band a **down** knob and an **up**
 knob sharing one value. macOS only (CoreMIDI).
+
+<img width="500" alt="Screenshot 2026-10-28 at 13 50 43" src="https://github.com/user-attachments/assets/2be9b2db-83f1-4ed2-8ec4-1bafe30df4bb" />
 
 ## Architecture
 
