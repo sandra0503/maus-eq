@@ -1,0 +1,23 @@
+README.md
+  s_eaccea441c09f7::t_305c8e70f37120 30-33
+  s_eaccea441c09f7::t_00215957f5814a 4-8,10-12
+  s_eaccea441c09f7::t_10e8b36701f9f7 38
+package.json
+  s_eaccea441c09f7::t_73ee06be3d43ee 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "0c7d707b065a9ff4a68977ede77aa7ae6016ff56",
+  "prompts": {},
+  "sessions": {
+    "s_eaccea441c09f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0f318c8-541b-4eca-a7fb-24b02502e820",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Sandra Zollner <sandra.zollner@n8n.io>"
+    }
+  }
+}
