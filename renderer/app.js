@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────
 //  CONFIG
 //  Each band has ONE value (0..127, centred at BASE). The DOWN and UP knobs
-//  (placed side by side) both show and drive that value. Hover a knob to nudge
-//  it at a steady fine rate. The MAX / RESET / MIN buttons jump to the extremes
-//  and centre instantly (mouse only — no keyboard shortcut).
+//  (placed side by side) both show and drive that value. Press and HOLD a knob
+//  to ramp it; release to stop. Preset buttons jump to the extremes/centre.
+//  Keyboard keys step by a fixed amount (KEY_STEP); the mouse hold-ramp step is
+//  the live-adjustable one in the Settings bar.
 // ─────────────────────────────────────────────────────────────────────────
 // A band can be an EQ band (centre-detented) or a VOLUME band (starts full).
 // Volume uses the standard MIDI Channel Volume CC (7).
@@ -34,15 +35,16 @@ const CHANNELS = [
 const BASE = 64;     // centre / reset value
 const MIN_V = 0;
 const MAX_V = 127;
-const cfg = { step: 2 }; // live-configurable fine step (see Settings bar)
-const TICK_MS = 55;   // hover re-fire interval
-const DWELL_MS = 140; // hover must linger this long before it starts turning
+const cfg = { step: 2 }; // live-configurable mouse hold-ramp step (Settings bar)
+const KEY_STEP = 5;   // fixed step per keyboard press (independent of the slider)
+const TICK_MS = 55;   // hold-ramp re-fire interval
 const MAX_ANGLE = 135;
 // halfway between MIN and centre
 const MID_VALUE = Math.round((MIN_V + BASE) / 2);
 
 const clamp = (v) => Math.max(MIN_V, Math.min(MAX_V, v));
 const keyToStep = new Map(); // key char -> step function
+let activeStop = null; // stops the knob currently held down (if any)
 
 function makeBand(chanMidi, band) {
   const row = document.createElement('div');
@@ -71,9 +73,9 @@ function makeBand(chanMidi, band) {
     clearTimeout(el._offT);
     el._offT = setTimeout(() => el.classList.remove('active'), 120);
   };
-  const step = (dir, knobEl) => {
+  const step = (dir, knobEl, amount = cfg.step) => {
     const before = state.value;
-    state.value = clamp(state.value + dir * cfg.step);
+    state.value = clamp(state.value + dir * amount);
     if (state.value !== before) { send(); render(); }
     if (knobEl) flash(knobEl);
   };
@@ -100,22 +102,24 @@ function makeBand(chanMidi, band) {
     const knobEl = cell.querySelector('.knob');
     state.dials.push(cell.querySelector('.knob-dial'));
 
-    // Hover turns it at a steady fine rate — but only after a brief dwell, so a
-    // quick pass-through of the mouse doesn't nudge it accidentally.
+    // Press and HOLD a knob to ramp it in that direction; release to stop.
     let timer = null;
-    let dwell = null;
-    cell.addEventListener('mouseenter', () => {
-      dwell = setTimeout(() => {
-        step(sign, knobEl);
-        timer = setInterval(() => step(sign, knobEl), TICK_MS);
-      }, DWELL_MS);
-    });
-    cell.addEventListener('mouseleave', () => {
-      clearTimeout(dwell); dwell = null;
+    const stopRamp = () => {
       clearInterval(timer); timer = null;
-    });
+      if (activeStop === stopRamp) activeStop = null;
+    };
+    const startRamp = () => {
+      if (timer) return;
+      activeStop = stopRamp;
+      step(sign, knobEl);
+      timer = setInterval(() => step(sign, knobEl), TICK_MS);
+    };
+    cell.addEventListener('mousedown', (e) => { e.preventDefault(); startRamp(); });
+    cell.addEventListener('mouseup', stopRamp);
+    cell.addEventListener('mouseleave', stopRamp);
 
-    keyToStep.set(key, () => step(sign, knobEl));
+    // Keyboard steps by a fixed, larger amount (independent of the mouse slider).
+    keyToStep.set(key, () => step(sign, knobEl, KEY_STEP));
     return cell;
   };
 
@@ -176,6 +180,9 @@ window.addEventListener('keydown', (e) => {
   const fn = keyToStep.get(e.key.toLowerCase());
   if (fn) { fn(); e.preventDefault(); }
 });
+
+// Releasing the mouse button anywhere stops a held knob.
+window.addEventListener('mouseup', () => { if (activeStop) activeStop(); });
 
 // ── Settings bar: step size (persisted across launches) ─────────────────────
 function initSettings() {

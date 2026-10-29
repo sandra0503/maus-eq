@@ -359,7 +359,7 @@ body {
   gap: 6px;
   padding: 5px 5px;
   border-radius: 12px;
-  cursor: ns-resize;
+  cursor: pointer;
   transition: background 0.15s;
 }
 .knob-cell:hover {
