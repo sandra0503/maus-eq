@@ -1,13 +1,15 @@
 
 # Maus EQ
 
-A mouse-driven, dual-channel MIDI EQ for **quickly blending sounds when your
-controller is out of reach**. Hold a knob to turn it, hit a button to kill or
-reset.
+**Keyboard-mappable DJ EQ.** A dual-channel MIDI EQ + volume controller you can
+drive **entirely from the keyboard** — bind each EQ band (highs / mids / lows)
+and each channel's volume to a **hotkey** and boost, cut, or kill hands-free when
+your controller is out of reach. Prefer the mouse? Hold a knob to ramp it; hit a
+button to reset or kill.
 
-It outputs **MIDI directly** over its own virtual port (`Maus EQ`). Two channels,
-three EQ bands each (HIGH / MID / LOW), every band a **down** knob and an **up**
-knob sharing one value. macOS only (CoreMIDI).
+It outputs **MIDI directly** over its own virtual port (`Maus EQ`), so it maps
+into **rekordbox / Traktor** like any controller. Two channels, three EQ bands
+each (HIGH / MID / LOW) plus channel volume. macOS only (CoreMIDI).
 
 <img width="500" alt="Screenshot 2026-10-29 at 12 09 28" src="https://github.com/user-attachments/assets/a844a98d-efbb-4cef-bfc3-49c9a2cdfea5" />
 
@@ -25,13 +27,15 @@ reset is exact, and nothing drifts.
 
 ## Interaction
 
+- **Keyboard (the main event):** every EQ band — and each channel's volume — is
+  bound to a key. Tap to step by a fixed amount (5), hold to auto-repeat. Map the
+  controls once in your DJ software and mix the EQ entirely from the keyboard.
+  See the [mapping](#keyboard--midi-mapping-value-0127-centre-64) below.
 - **Hold** a knob (press and keep the mouse button down) to ramp it in that
   direction; release to stop. The ramp rate is the **STEP** slider in settings.
 - **RESET** jumps the band to centre (64); **MIN** kills it to 0.
-- **Keyboard:** each mapped key steps its band by a fixed amount (5); hold to
-  auto-repeat.
 
-## Mapping (value 0–127, centre 64)
+## Keyboard & MIDI mapping (value 0–127, centre 64)
 
 | Channel (MIDI ch) | Band | CC | Down | Up |
 | ----------------- | ---- | -- | ---- | -- |
