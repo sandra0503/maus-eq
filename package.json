@@ -1,6 +1,6 @@
 {
   "name": "maus-eq",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Maus EQ — keyboard-mappable dual-channel MIDI EQ + volume for rekordbox/Traktor; map EQ bands to hotkeys and mix hands-free (macOS)",
   "main": "main.js",
   "scripts": {

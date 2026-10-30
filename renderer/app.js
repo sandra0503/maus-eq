@@ -44,7 +44,14 @@ const MID_VALUE = Math.round((MIN_V + BASE) / 2);
 
 const clamp = (v) => Math.max(MIN_V, Math.min(MAX_V, v));
 const keyToStep = new Map(); // key char -> step function
+const keyToAction = new Map(); // key char -> scene action
+const bandControls = {}; // "deck-BAND" (e.g. "0-LOW") -> { set, get }
 let activeStop = null; // stops the knob currently held down (if any)
+
+// Incoming-track prep: kill the bass, dip mids/highs below neutral.
+const PREP_LOW = 0;
+const PREP_MID = 48;
+const PREP_HIGH = 48;
 
 function makeBand(chanMidi, band) {
   const row = document.createElement('div');
@@ -154,6 +161,9 @@ function makeBand(chanMidi, band) {
   row.appendChild(btns);
   render();
   send(); // push initial value so rekordbox starts synced
+
+  // expose this band so scene actions can drive it (keyed "deck-BAND")
+  bandControls[`${chanMidi}-${band.name}`] = { set: (v) => jump(v), get: () => state.value };
   return row;
 }
 
@@ -177,12 +187,71 @@ function build() {
 // Keyboard: each mapped key steps its band (hold to auto-repeat). The buttons
 // are intentionally mouse-only.
 window.addEventListener('keydown', (e) => {
-  const fn = keyToStep.get(e.key.toLowerCase());
-  if (fn) { fn(); e.preventDefault(); }
+  const k = e.key.toLowerCase();
+  const fn = keyToStep.get(k);
+  if (fn) { fn(); e.preventDefault(); return; }
+  const act = keyToAction.get(k);
+  if (act) { act(); e.preventDefault(); }
 });
 
 // Releasing the mouse button anywhere stops a held knob.
 window.addEventListener('mouseup', () => { if (activeStop) activeStop(); });
+
+// ── Scene actions: whole-mix macros across both decks ───────────────────────
+const setBand = (deck, name, v) => bandControls[`${deck}-${name}`] && bandControls[`${deck}-${name}`].set(v);
+
+let bassDeck = 1; // 1-based deck currently holding the bass
+let bassLabelEl = null;
+const updateBassLabel = () => { if (bassLabelEl) bassLabelEl.textContent = `BASS ▸ ${bassDeck}`; };
+
+// Swap the bass: bring LOW up on the incoming deck, kill it on the other.
+function bassSwap() {
+  const to = bassDeck === 1 ? 2 : 1;
+  setBand(to - 1, 'LOW', BASE);
+  setBand(bassDeck - 1, 'LOW', MIN_V);
+  bassDeck = to;
+  updateBassLabel();
+}
+// Return every EQ band on both decks to centre (volume untouched).
+function eqResetBoth() {
+  for (const d of [0, 1]) for (const n of ['HIGH', 'MID', 'LOW']) setBand(d, n, BASE);
+  bassDeck = 1;
+  updateBassLabel();
+}
+// Prep one deck for an incoming track: kill bass, dip mids/highs.
+function prep(deck) {
+  setBand(deck, 'LOW', PREP_LOW);
+  setBand(deck, 'MID', PREP_MID);
+  setBand(deck, 'HIGH', PREP_HIGH);
+}
+
+const SCENES = [
+  { label: 'BASS ▸ 1', key: 'b', title: 'Swap bass between decks', action: bassSwap, bass: true },
+  { label: 'EQ RESET', key: 'r', title: 'Reset all EQ to centre on both decks', action: eqResetBoth },
+  { label: 'PREP 1', key: '3', title: 'Prep CH1 for an incoming track (kill bass, dip mids/highs)', action: () => prep(0) },
+  { label: 'PREP 2', key: '4', title: 'Prep CH2 for an incoming track (kill bass, dip mids/highs)', action: () => prep(1) },
+];
+
+function initScenes() {
+  const root = document.getElementById('scenes');
+  for (const s of SCENES) {
+    const b = document.createElement('button');
+    b.className = 'scene-btn';
+    b.title = `${s.title} (${s.key.toUpperCase()})`;
+    const label = document.createElement('span');
+    label.className = 'scene-label';
+    label.textContent = s.label;
+    const chip = document.createElement('span');
+    chip.className = 'scene-key';
+    chip.textContent = s.key.toUpperCase();
+    b.appendChild(label);
+    b.appendChild(chip);
+    b.addEventListener('click', s.action);
+    if (s.bass) bassLabelEl = label;
+    keyToAction.set(s.key, s.action);
+    root.appendChild(b);
+  }
+}
 
 // ── Settings bar: step size (persisted across launches) ─────────────────────
 function initSettings() {
@@ -202,3 +271,4 @@ function initSettings() {
 
 build();
 initSettings();
+initScenes();

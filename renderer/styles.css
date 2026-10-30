@@ -99,6 +99,56 @@ body {
   -webkit-app-region: no-drag;
 }
 
+/* ── Scene bar (whole-mix macros) ────────────────────────────────── */
+.scenes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+.scene-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background: linear-gradient(180deg, var(--btn-hi), var(--btn-lo));
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 -2px 2px rgba(0, 0, 0, 0.5) inset;
+  transition: transform 0.05s, color 0.12s, box-shadow 0.12s;
+}
+.scene-btn:hover {
+  color: var(--accent-glow);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 45, 142, 0.4) inset,
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+.scene-btn:active {
+  transform: translateY(1px);
+}
+.scene-key {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 4px;
+  padding: 2px 5px;
+  letter-spacing: 0;
+}
+
 /* ── Settings bar ────────────────────────────────────────────────── */
 .settings {
   display: flex;
@@ -525,5 +575,14 @@ body {
     width: 50px;
     padding: 6px 0;
     font-size: 8px;
+  }
+  .scenes {
+    gap: 7px;
+    padding: 8px 12px;
+  }
+  .scene-btn {
+    font-size: 9px;
+    padding: 6px 9px;
+    gap: 6px;
   }
 }

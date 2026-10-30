@@ -24,9 +24,9 @@ function startHelper() {
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 760,
-    height: 770,
+    height: 820,
     minWidth: 450,
-    minHeight: 500,
+    minHeight: 544,
     backgroundColor: '#0a0b0e',
     titleBarStyle: 'hiddenInset',
     title: 'Maus EQ',

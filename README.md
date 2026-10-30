@@ -35,6 +35,18 @@ reset is exact, and nothing drifts.
   direction; release to stop. The ramp rate is the **STEP** slider in settings.
 - **RESET** jumps the band to centre (64); **MIN** kills it to 0.
 
+## Scene macros
+
+Whole-mix actions in the scene bar — each with a keyboard shortcut:
+
+- **BASS SWAP** (`B`) — kill the bass on one deck and bring it up on the other;
+  press again to swap back. The button shows which deck currently holds the bass.
+- **EQ RESET** (`R`) — return every EQ band on both decks to centre (volume left
+  untouched).
+- **PREP 1 / PREP 2** (`3` / `4`) — prep a deck for an incoming track: kill its
+  bass and dip mids/highs below neutral (LOW 0, MID 48, HIGH 48). Tune via the
+  `PREP_LOW/MID/HIGH` constants in `renderer/app.js`.
+
 ## Keyboard & MIDI mapping (value 0–127, centre 64)
 
 | Channel (MIDI ch) | Band | CC | Down | Up |
