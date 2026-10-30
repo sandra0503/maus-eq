@@ -1,0 +1,33 @@
+renderer/styles.css
+  s_eaccea441c09f7::t_5b59ab1d59edfb 102-151
+  s_eaccea441c09f7::t_a2784e1739c082 579-587
+main.js
+  s_eaccea441c09f7::t_618514d71387c5 27,29
+package.json
+  s_eaccea441c09f7::t_9fa33dc07c25a8 3
+renderer/index.html
+  s_eaccea441c09f7::t_3a5cf07adba7fe 22-23
+README.md
+  s_eaccea441c09f7::t_ceb5ac4918edf4 38-49
+renderer/app.js
+  s_eaccea441c09f7::t_e7efc67ee2de2e 47-48,51-54
+  s_eaccea441c09f7::t_07f4c193707813 190-194,200-254
+  s_eaccea441c09f7::t_629e3d4fb3037e 164-166
+  s_eaccea441c09f7::t_5a7b08eaee46ae 274
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ebc89b0def11864611dcb7a3eca04cc4559a11a0",
+  "prompts": {},
+  "sessions": {
+    "s_eaccea441c09f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0f318c8-541b-4eca-a7fb-24b02502e820",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Sandra Zollner <sandra.zollner@n8n.io>"
+    }
+  }
+}
